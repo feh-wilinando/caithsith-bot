@@ -1,0 +1,15 @@
+{
+  "name": "caithsith",
+  "version": "1.0.0",
+  "description": "bot caelum",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mysql": "^2.13.0",
+    "node-telegram-bot-api": "^0.27.0"
+  }
+}
