@@ -1,10 +1,9 @@
 FROM node
-COPY index.js /caithsith-bot
-COPY package.json /caithsith-bot
-
-ENV MYSQL_HOST mysqldb
-
 WORKDIR /caithsith-bot
+
+COPY index.js .
+COPY package.json .
+
 RUN npm install
 
-CMD npm start
+CMD node index.js

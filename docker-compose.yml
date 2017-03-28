@@ -1,0 +1,12 @@
+version: "3.0"
+services:
+  db:
+    image: mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+      MYSQL_DATABASE: caithsith
+  caithsith-bot:
+    external_links:
+      - db:mysql
+    build:
+      context: .
