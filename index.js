@@ -7,7 +7,7 @@ var users = []
 
 bot.on('message', (msg) => {
     const connection = mysql.createConnection({
-        host: 'mysql',
+        host: process.env.MYSQL_HOST || 'mysql',
         user: 'root',
         password: '',
         database: 'caithsith'
@@ -19,12 +19,27 @@ bot.on('message', (msg) => {
     let userCommand = msg.text
     let userId = msg.from.id
 
-    if (users.find((t) => t.userId == userId)){
+    if (/^\/get/.test(userCommand)) {
+      let person = userCommand.split(' ')
+      connection.query(`select * from Perola where user='${person[1].toLowerCase()}'`, (err, perolas) => {
+        let resp = perolas.map((perola) => perola.perola).reduce((a, b) => `${a}\n${b}`)
+        bot.sendMessage(chatId, `As perolas de ${person[1]}: \n ${resp}`)
+      })
+      return
+    }
 
+    if (userCommand == '/save' || userCommand == '/save@caithsith_bot'){
+        bot.sendMessage(chatId, 'Quem foi?');
+        users.push({ userId: userId, data:{user:'', perola:''} })
+        console.log(users.find((t) => t.userId == userId))
+        return
+    }
+
+    if (users.find((t) => t.userId == userId)){
         let user = users.find((t) => t.userId == userId)
 
         if(!user.data.user){
-            user.data.user = msg.text
+            user.data.user = msg.text.toLowerCase();
             bot.sendMessage(chatId, 'Qual foi a pérola?')
         }else{
             user.data.perola = msg.text
@@ -34,12 +49,6 @@ bot.on('message', (msg) => {
 
             bot.sendMessage(chatId, 'Pérola Salva!')
         }
-
-    }
-
-    if (userCommand == '/save'){
-        bot.sendMessage(chatId, 'Quem foi?');
-        users.push({ userId: userId, data:{user:'', perola:''} })
     }
 
     connection.end()
