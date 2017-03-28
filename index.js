@@ -5,8 +5,6 @@ const bot = new TelegramBot(token, {polling:true})
 
 var users = []
 
-
-
 bot.on('message', (msg) => {
     const connection = mysql.createConnection({
         host: 'mysql',
@@ -38,7 +36,6 @@ bot.on('message', (msg) => {
         }
 
     }
-
 
     if (userCommand == '/save'){
         bot.sendMessage(chatId, 'Quem foi?');
